@@ -1,7 +1,7 @@
 Simple SQL Parser
 -------------------
 
-Develop a handwritten parser that is able to parse SQL commands
+Develop a handwritten main.parser that is able to parse SQL commands
 defined in the "operations.sql" into a simple Abstract Syntax Tree
 (AST). It does not have to support all features that are available 
 in SQL but only the ones used by the example SQL file.

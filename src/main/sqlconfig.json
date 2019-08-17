@@ -1,0 +1,6 @@
+{
+  "statements" : ["select", "insert", "delete"],
+  "constraints" : ["not null"],
+  "clauses" : ["where", "from", "into", "is"],
+  "operators": ["<"]
+}
