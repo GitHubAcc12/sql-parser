@@ -1,4 +1,4 @@
-package main.parser.inputhandler;
+package main.inputhandler;
 
 import java.util.List;
 

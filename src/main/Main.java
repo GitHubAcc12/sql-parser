@@ -1,9 +1,9 @@
 package main;
 
-import main.parser.inputhandler.InputHandler;
-import main.parser.inputhandler.LocalFileReader;
-import main.parser.lexer.Lexer;
-import main.parser.model.Token;
+import main.inputhandler.InputHandler;
+import main.inputhandler.LocalFileReader;
+import main.lexer.Lexer;
+import main.model.Token;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(final String[] args) {
         final InputHandler reader = new LocalFileReader();
-        final List<String> readWords = reader.read("/Users/jankretschmann/IdeaProjects/sql-parser/task/operations.sql");
+        final List<String> readWords = reader.read("./task/operations.sql");
         for (final String line : readWords) {
             final List<Token> tokens = Lexer.tokenizeLine(line);
             System.out.println("New Line:");
