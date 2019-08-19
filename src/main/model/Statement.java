@@ -9,11 +9,6 @@ public class Statement extends Token {
     }
 
     @Override
-    public String getToken() {
-        return token;
-    }
-
-    @Override
     public String getAsString() {
         return "Statement: " + token;
     }

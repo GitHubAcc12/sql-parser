@@ -9,11 +9,6 @@ public class BinaryOperator extends Token {
     }
 
     @Override
-    public String getToken() {
-        return token;
-    }
-
-    @Override
     public String getAsString() {
         return "Operator: " + token;
     }

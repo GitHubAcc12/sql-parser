@@ -10,11 +10,6 @@ public class Constraint extends Token {
     }
 
     @Override
-    public String getToken() {
-        return token;
-    }
-
-    @Override
     public String getAsString() {
         return "Constraint: " + token;
     }

@@ -12,22 +12,25 @@ import main.parser.Parser;
 import java.util.ArrayList;
 import java.util.List;
 
-// https://stackoverflow.com/questions/10379956/parsing-sql-like-syntax-design-pattern
-// https://stackoverflow.com/questions/2842809/lexers-vs-parsers
-
 
 public class Main {
 
     public static void main(final String[] args) {
+
+        // read the input file
         final InputHandler reader = new LocalFileReader();
         final List<String> readWords = reader.read("./task/operations.sql");
-        final OutputHandler writer = new LocalFileWriter();
+
+        // iterate over each sql operation and save the resulting AbstractSyntaxTree as a String representation
         final List<String> toWrite = new ArrayList<>();
         for (final String line : readWords) {
             final List<Token> tokens = Lexer.tokenizeLine(line);
             final AbstractSyntaxTree abstractSyntaxTree = Parser.parseAbstractSyntaxTree(tokens);
             toWrite.add(abstractSyntaxTree.getOutputFormat());
         }
+
+        // write the output file
+        final OutputHandler writer = new LocalFileWriter();
         writer.write(toWrite, "./result/abstractsyntaxtree.txt");
     }
 }

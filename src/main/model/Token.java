@@ -11,7 +11,6 @@ public abstract class Token {
     String token;
 
     private List<Token> children;
-    private List<Parameter> parameters;
 
     /**
      * Private default constructor to prevent it from being called.
@@ -27,7 +26,6 @@ public abstract class Token {
     Token(final String token) {
         this.token = token;
         children = new ArrayList<>();
-        parameters = new ArrayList<>();
     }
 
     /**
@@ -40,24 +38,10 @@ public abstract class Token {
     }
 
     /**
-     * Adds a parameter child node to the token.
+     * Retrieves a string representation of the node.
      *
-     * @param parameter
+     * @return A String representation in form of: "TYPE: WORD"
      */
-    public void addParameter(final Parameter parameter) {
-        parameters.add(parameter);
-    }
-
-    public List<Parameter> getParameters() {
-        return parameters;
-    }
-
-    public List<Token> getChildren() {
-        return children;
-    }
-
-    public abstract String getToken();
-
     public abstract String getAsString();
 
     String getAsTree(final int level, final StringBuilder stringBuilder) {
@@ -66,10 +50,7 @@ public abstract class Token {
         }
         stringBuilder.append(getAsString());
         stringBuilder.append(System.lineSeparator());
-        final List<Token> allChildren = new ArrayList<>();
-        allChildren.addAll(parameters);
-        allChildren.addAll(children);
-        for (final Token child : allChildren) {
+        for (final Token child : children) {
             child.getAsTree(level + 1, stringBuilder);
         }
         return stringBuilder.toString();
