@@ -1,5 +1,8 @@
 package main.model;
 
+/**
+ * Model class to represent the binary operators from the operations.sql file.
+ */
 public class BinaryOperator extends Token {
     public BinaryOperator(final String operator) {
         super(operator);

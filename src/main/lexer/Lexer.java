@@ -6,8 +6,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Used to tokenize the lines from the input file, create one token out of every word and put
+ * composite tokens together. Technically exceeds what a Lexer does, but I found no different
+ * name to be more fitting. Consists of static methods because no attributes were used.
+ * Could be changed to an interface + implementing class, to make it easier to extend it to
+ * a Lexer+Parser for more languages than SQL.
+ */
 public class Lexer {
 
+    /**
+     * Uses the Keyword class to find out which class is best used to describe a token. Creates an instance of that
+     * class and returns it.
+     *
+     * @param word The token to classify.
+     * @return An instance of one of the five possible token classes, to be found in the model package.
+     */
     private static Token createTokenFromWord(final String word) {
         if (Arrays.asList(Keywords.STATEMENTS).contains(word)) {
             return new Statement(word);
@@ -22,11 +36,17 @@ public class Lexer {
         }
     }
 
+    /**
+     * Publicly visible method used to tokenize a line. Uses several private methods internally.
+     *
+     * @param line The line to be tokenized.
+     * @return A list of Token instances.
+     */
     public static List<Token> tokenizeLine(final String line) {
         final List<Token> tokenList = new ArrayList<>();
         final String[] words = cutSemicolonFromLastWordIfExists(line.split(" "));
         for (int i = 0; i < words.length; i++) {
-            String word = clearAdditionalCharacters(words[i]);
+            String word = words[i];
             if (isCompositeKeyword(word)) {
                 // Assuming one SQL-Statement is not split into two lines
                 // AND one line does not contain more than one statement
@@ -34,17 +54,19 @@ public class Lexer {
                 i++;
             } else if (word.charAt(0) == '"') {
                 // handle strings
-                System.out.println(word);
                 final StringBuilder completeWord = new StringBuilder(word);
                 i++; // initialize completeWord with word and
                 // increment i once here instead of checking the size of completeWord every iteration
                 for (; completeWord.charAt(completeWord.length() - 1) != '"'; i++) {
-                    System.out.println("Completeword: " + completeWord.toString());
                     completeWord.append(" ").append(clearAdditionalCharacters(words[i]));
                 }
                 word = completeWord.toString();
+                i--; // decrement once to prevent double increment because of the two loops
             }
-            final Token generatedToken = createTokenFromWord(word);
+            final Token generatedToken = createTokenFromWord(clearAdditionalCharacters(word));
+
+            // easiest way to handle the binary operators as a tree node later on
+            // is to put them in order at this point
             if (generatedToken instanceof BinaryOperator) {
                 tokenList.add(tokenList.size() - 1, generatedToken);
             } else {
@@ -54,10 +76,23 @@ public class Lexer {
         return tokenList;
     }
 
+    /**
+     * Puts together Keywords which technically consist of more than one word/token.
+     *
+     * @param word The first half of the word.
+     * @return True, if a second half is needed to complete the keyword; false, if not.
+     */
     private static boolean isCompositeKeyword(final String word) {
         return Arrays.asList(Keywords.COMPOSITE_KEYWORDS_FIRST_HALFS).contains(word);
     }
 
+    /**
+     * Cuts the semicolon from the last word of the received line. Only cuts one semicolon, assumes there is not more
+     * than one.
+     *
+     * @param words The line as an array of words.
+     * @return A new array of strings, where the last entry is short one semicolon at the end.
+     */
     private static String[] cutSemicolonFromLastWordIfExists(final String[] words) {
         final String lastWord = words[words.length - 1];
         if (lastWord.charAt(lastWord.length() - 1) == ';') {
@@ -66,6 +101,13 @@ public class Lexer {
         return words;
     }
 
+    /**
+     * Clears the other useless characters from the front and the back of a word. Only checks for the characters
+     * which could be found in the operations.sql file, which are '(' for the front and ')' and ',' for the back.
+     *
+     * @param word The word to be checked.
+     * @return The same word without the mentioned characters at the front or the back.
+     */
     private static String clearAdditionalCharacters(final String word) {
         String cleared = word.trim();
         final char lastChar = cleared.charAt(cleared.length() - 1);

@@ -1,0 +1,36 @@
+Statement: USE
+	Parameter: database1
+
+Statement: SELECT
+	Parameter: id
+	Parameter: name
+	Parameter: address
+	Clause: FROM
+		Parameter: users
+	Clause: WHERE
+		Operator: IS
+			Parameter: is_customer
+			Constraint: NOT NULL
+	Clause: ORDER BY
+		Parameter: created
+
+Statement: INSERT
+	Clause: INTO
+		Parameter: user_notes
+		Parameter: id
+		Parameter: user_id
+		Parameter: note
+		Parameter: created
+	Clause: VALUES
+		Parameter: 1
+		Parameter: 1
+		Parameter: "Note 1"
+		Parameter: NOW()
+
+Statement: DELETE FROM
+	Parameter: database2.logs
+	Clause: WHERE
+		Operator: <
+			Parameter: id
+			Parameter: 1000
+

@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Reads the input from a locally saved file line by line and returns it as a list of strings.
+ */
 public class LocalFileReader implements InputHandler {
-
-
     /**
      * Reads the file referenced with filepath line by line.
      *
@@ -25,7 +26,7 @@ public class LocalFileReader implements InputHandler {
             }
 
         } catch (final IOException e) {
-            System.out.println("Failed to read file");
+            System.out.println("Failed to read file: " + e.getLocalizedMessage());
         }
         return lines;
     }

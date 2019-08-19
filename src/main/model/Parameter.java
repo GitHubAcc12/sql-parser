@@ -1,5 +1,8 @@
 package main.model;
 
+/**
+ * Model class used to represent parameters used in the operations.sql file.
+ */
 public class Parameter extends Token {
     public Parameter(final String parameter) {
         super(parameter);
