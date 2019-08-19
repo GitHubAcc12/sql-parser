@@ -6,7 +6,8 @@ import java.util.List;
 
 /**
  * Class containing the keywords used in the operations.sql file as constants. Maybe this should be outsourced to a
- * config file.
+ * config file. Also it would probably be better to distinct between the different things that are now just viewed as
+ * "Parameters" (everything that is not listed here).
  */
 public class Keywords {
     public static final String[] STATEMENTS = {"SELECT", "INSERT", "DELETE", "USE", "DELETE FROM"};
